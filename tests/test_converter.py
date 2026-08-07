@@ -16,7 +16,7 @@ from pandapower_to_energnn import elements
 class SmallConverter(Converter):
     elements_converter_dict = {
         "buses": elements.BusConverter(["energnn_adress"], None),
-        "lines": elements.LinConverter(["from_bus", "to_bus"], ["r_ohm", "x_ohm"]),
+        "lines": elements.LineConverter(["from_bus", "to_bus"], ["r_ohm", "x_ohm"]),
         "loads": elements.LoadConverter(["bus"], ["p_mw", "q_mvar"]),
     }
 
@@ -38,7 +38,7 @@ def test_returns_graph(graph):
 
 def test_addresses_are_consecutive_integers(network, graph):
     n_addresses = len(graph.non_fictitious_addresses)
-    assert n_addresses == len(network.get_buses())
+    assert n_addresses == len(network.bus)
 
     for hyper_edge_set in graph.hyper_edge_sets.values():
         if hyper_edge_set.port_dict is not None:
@@ -63,7 +63,7 @@ def test_feature_names_match_feature_list(graph):
 
 
 def test_conversion_is_deterministic(network, graph):
-    other_graph = SmallConverter()(network=network)
+    other_graph = SmallConverter()(net=network)
     for k, hyper_edge_set in graph.hyper_edge_sets.items():
         other_hyper_edge_set = other_graph.hyper_edge_sets[k]
         if hyper_edge_set.port_dict is not None:
