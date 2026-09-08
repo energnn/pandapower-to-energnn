@@ -1,0 +1,56 @@
+[project]
+name = "pandapower-to-energnn"
+version = "0.1.0"
+description = "Data conversion pipeline from pandapower networks to energnn graphs."
+authors = [
+    { name = "Balthazar DONON", email = "balthazar.donon@rte-france.com" },
+    { name = "Pawel Lytaev", email = "pawel.lytaev@uni-kassel.de" },
+]
+requires-python = ">=3.11"
+readme = "README.md"
+dependencies = [
+    "energnn>=0.4.0",
+    "pandapower>=3.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "coverage>=7.11.3",
+    "pytest-cov>=2.19.2",
+    "flake8>=7.0.0",
+    "Flake8-pyproject==1.2.3",
+    "black==24.8.0",
+    "mypy==1.13.0",
+    "pandas-stubs>=2.2.2",
+    "boto3-stubs>=1.28.0",
+    "types-tqdm>=4",
+]
+docs = [
+    "sphinx",
+    "furo",
+    "sphinx-copybutton",
+    "nbsphinx",
+    "ipykernel",
+]
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.black]
+line-length = 127
+
+[tool.flake8]
+max-line-length = 127
+extend-ignore = ["E203", "E701"]
+
+[[tool.mypy.overrides]]
+module = "energnn.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
